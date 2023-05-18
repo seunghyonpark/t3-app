@@ -150,6 +150,7 @@ const client = createClient({
 });
 */
 
+/*
 
 import { Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
@@ -160,12 +161,12 @@ import { publicProvider } from "wagmi/providers/public"
 import "./styles.css"
 
 
-/*
-export const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
-  [publicProvider()]
-)
-*/
+
+//export const { chains, provider } = configureChains(
+//  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+//  [publicProvider()]
+//)
+
 export const { chains, provider } = configureChains(
   [Chain.mainnet, Chain.polygon, Chain.optimism, Chain.arbitrum],
   [publicProvider()]
@@ -198,26 +199,54 @@ const MyApp: AppType<{ session: Session | null }> = ({
 // Exports
 // ========================================================
 export default api.withTRPC(MyApp);
-
-
+*/
 
 
 
 /*
+
 import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import "./styles.css"
-import { WagmiProvider } from "wagmi"
+//import { WagmiProvider } from "wagmi"
 
 // Use of the <SessionProvider> is mandatory to allow components that call
 // `useSession()` anywhere in your application to access the `session` object.
 export default function App({ Component, pageProps }: AppProps) {
   return (
+    
     <WagmiProvider autoConnect>
+  
       <SessionProvider session={pageProps.session} refetchInterval={0}>
         <Component {...pageProps} />
+
       </SessionProvider>
+
+      
     </WagmiProvider>
+
+
   )
 }
 */
+
+import { type AppType } from "next/app";
+import { type Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
+
+import { api } from "~/utils/api";
+
+import "~/styles/globals.css";
+
+const MyApp: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
+  return (
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  );
+};
+
+export default api.withTRPC(MyApp);
